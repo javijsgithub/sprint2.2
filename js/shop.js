@@ -92,13 +92,13 @@ function buy(id) {
     }
 
    console.log(product.name + " añadido al carrito");
+
+    calculateTotal();
+    applyPromotionsCart();
+    printCart();
   } 
-    else {
-    console.log("Producto no encontrado");
-  }
 }
-    buy(1);
-    console.log('Carrito:', cart);
+   
     
 
 
@@ -106,10 +106,14 @@ function buy(id) {
 function cleanCart() {
 
     cart = [];
+    total = 0;
 
     console.log("Carrito vaciado correctamente");
+
+    printCart();
 }
-    cleanCart()
+
+
 
 // Exercise 3
 function calculateTotal() {
@@ -119,10 +123,11 @@ function calculateTotal() {
     for (let i = 0; i < cart.length; i++) {
         total += cart[i].price * cart[i].quantity;
     }
-    console.log("Total del carrito " + total);
+    printCart();
 }
-calculateTotal();
-buy();
+  
+
+
 
 // Exercise 4
 function applyPromotionsCart() {
@@ -130,39 +135,43 @@ function applyPromotionsCart() {
 
         for (let i = 0; i < cart.length; i++) {
 
-          if (cart[i].quantity >= 3 && cart[i].name ===  "cooking oil") {
-              cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity * 0.8;
-          } 
-          else if (cart[i].quantity >= 10 && cart[i].name === "Instant cupcake mixture") {
-                   cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity * 0.7;
-          } 
-          else {
-            cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity;
-          }
+          let item = cart[i];
+
+          if (item.id === 1 && item.quantity >= 3) {
+            // Si el producto tiene id 1 y la cantidad es 3 o más, se aplica un descuento del 20%
+            var discountedPrice = item.price * 0.8;
+            item.price = discountedPrice.toFixed(2);
+        } else if (item.id === 3 && item.quantity >= 10) {
+            // Si el producto tiene id 3 y la cantidad es 10 o más, se aplica un descuento del 30%
+            var discountedPrice = item.price * 0.7;
+            item.price = discountedPrice.toFixed(2);
         }
-      }
-      applyPromotionsCart();
+    }
+    printCart();
+}
       
-      console.log('Carrito con descuentos:', cart);
 
 
 // Exercise 5
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
 
-  if (cart.length === 0) {
-    console.log("Cart is empty.");
-  } 
-  else {
+    var cartList = document.getElementById('cart_list');
+    cartList.innerHTML = '';
+
     cart.forEach(function (item) {
-      console.log(item.name + "  Quantity: " + item.quantity);
+        var cartItem = document.createElement('tr');
+        cartItem.innerHTML = `
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td>${item.quantity}</td>
+            <td>$${(item.price * item.quantity).toFixed(2)}</td>
+        `;
+        cartList.appendChild(cartItem);
     });
 
-    var totalQuantity = calculateTotalQuantity();
-    console.log("Total Items: " + totalQuantity);
-  }
+    document.getElementById('total_price').textContent = total.toFixed(2);
 }
-printCart();
 
 // ** Nivell II **
 
