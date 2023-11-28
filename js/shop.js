@@ -91,14 +91,15 @@ function buy(id) {
       cart.push({ ...product, quantity: 1 });
     }
 
-    console.log(product.name + " añadido al carrito");
-    } 
+   console.log(product.name + " añadido al carrito");
+  } 
     else {
     console.log("Producto no encontrado");
   }
 }
-    buy();
-
+    buy(1);
+    console.log('Carrito:', cart);
+    
 
 
 // Exercise 2
@@ -113,26 +114,66 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+
+    let total = 0;
+    for (let i = 0; i < cart.length; i++) {
+        total += cart[i].price * cart[i].quantity;
+    }
+    console.log("Total del carrito " + total);
 }
+calculateTotal();
+buy();
 
 // Exercise 4
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-}
+
+        for (let i = 0; i < cart.length; i++) {
+
+          if (cart[i].quantity >= 3 && cart[i].name ===  "cooking oil") {
+              cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity * 0.8;
+          } 
+          else if (cart[i].quantity >= 10 && cart[i].name === "Instant cupcake mixture") {
+                   cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity * 0.7;
+          } 
+          else {
+            cart[i].subtotalWithDiscount = cart[i].price * cart[i].quantity;
+          }
+        }
+      }
+      applyPromotionsCart();
+      
+      console.log('Carrito con descuentos:', cart);
+
 
 // Exercise 5
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-}
 
+  if (cart.length === 0) {
+    console.log("Cart is empty.");
+  } 
+  else {
+    cart.forEach(function (item) {
+      console.log(item.name + "  Quantity: " + item.quantity);
+    });
+
+    var totalQuantity = calculateTotalQuantity();
+    console.log("Total Items: " + totalQuantity);
+  }
+}
+printCart();
 
 // ** Nivell II **
 
 // Exercise 7
 function removeFromCart(id) {
 
+    
 }
 
+
 function open_modal() {
-    printCart();
+// Recorrer el carrito y agregar filas al modal
+   
 }
