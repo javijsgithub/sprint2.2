@@ -177,12 +177,16 @@ function printCart() {
 
 // Exercise 7
 function removeFromCart(id) {
-
+  cart = cart.filter(item => item.id !== id);
+  calculateTotal();
+  applyPromotionsCart();
+  printCart();
     
 }
 
 
 function open_modal() {
 // Recorrer el carrito y agregar filas al modal
+printCart();
    
 }
